@@ -1,8 +1,8 @@
 class Card {
-    constructor(house, value, name){
-        this.house = house;
-        this.value = value;
-        this.name = name;
+    constructor(){
+        this.house = '';
+        this.value = 0;
+        this.name = '';
         
     };
    
@@ -10,16 +10,17 @@ class Card {
 
 class Deck {    
     constructor(highAce = true){
-        this.deck = [];
-        this.suite = [];
         this.highAce = highAce;
     };
     buildHouse(house){ 
+        //create array
+        const suite = [];
+        //begin loop to assign a card to each suite index
         for (let i = 0; i < 13; i++ ) {
         //create new card
         let card = new Card();
         //assign card to array index
-        this.suite[i] = card;
+        suite[i] = card;
         //set house
         card.house = house;
         //set value
@@ -40,15 +41,16 @@ class Deck {
                 }
             }       
         }
-    return this.suite;
+    return suite;
     }
     buildDeck() {
-        let houses = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
+        let deck = [];
+        const houses = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
         for (let i=0; i< houses.length; i++) {       
        
-            this.deck=this.deck.concat(this.buildHouse(houses[i]))        
+            deck=deck.concat(this.buildHouse(houses[i]))        
         }
-        return this.deck;
+        return deck;
     }
 }
 
@@ -63,43 +65,42 @@ class Player {
 
 class Game {
     
-    constructor(name1="Player1", name2="Player2") {
-        this.player1= new Player(name1);
-        this.player2 = new Player(name2);
+constructor(name1="Player1", name2="Player2") {
+    this.player1= new Player(name1);
+    this.player2 = new Player(name2);
 
+}
+
+//https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+shuffle(){
+    let deck = new Deck().buildDeck();
+
+    for (let i = deck.length -1; i>0 ;i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
     }
 
-    shuffle(){
-        let deck = new Deck().buildDeck();
+    return deck;
+}
 
-        for (let i = deck.length -1; i>0 ;i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
+deal(){
+    let deck = this.shuffle();
+
+    for (let i=0; i < deck.length;i++) {
+        if (i%2===0){
+            this.player1.hand.push(deck[i]);
+        } else if (i%2===1) {
+            this.player2.hand.push(deck[i]);
         }
-
-        return deck;
     }
 
-    deal(){
-        let deck = this.shuffle();
+}
 
-        for (let i=0; i < deck.length;i++) {
-            if (i%2===0){
-                this.player1.hand.push(deck[i]);
-            } else if (i%2===1) {
-                this.player2.hand.push(deck[i]);
-            }
-        }
-
-
-
-    }
-
-    play(){
-        this.deal();
-        let p1 = this.player1;
-        let p2 = this.player2;
-        //console.log(p1);
+play(){
+    this.deal();
+    let p1 = this.player1;
+    let p2 = this.player2;
+    //console.log(p1);
 
 for (let i=0;i<26;i++) {
     let playString=`Round ${i}: 
@@ -142,5 +143,8 @@ for (let i=0;i<26;i++) {
 
 }
 
+let test = new Deck().buildDeck();
+
 let game = new Game("Tom", "Jerry").play();
 
+console.log(test);
