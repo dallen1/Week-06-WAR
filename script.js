@@ -1,8 +1,8 @@
 class Card {
-    constructor(){
-        this.house = '';
-        this.value = 0;
-        this.name = '';
+    constructor(house, value, rank){
+        this.house = house;
+        this.value = value;
+        this.rank = rank;
         
     };
    
@@ -11,48 +11,40 @@ class Card {
 class Deck {    
     constructor(highAce = true){
         this.highAce = highAce;
+        this. deck = [];
     };
-    buildHouse(house){ 
-        //create array
-        const suite = [];
-        //begin loop to assign a card to each suite index
-        for (let i = 0; i < 13; i++ ) {
-        //create new card
-        let card = new Card();
-        //assign card to array index
-        suite[i] = card;
-        //set house
-        card.house = house;
-        //set value
-        card.value = i+1;
-        //name cards
-        if (card.value < 10) {
-            card.name = card.value +1;
-            } else if (card.value===10) {
-                card.name ="Jack";
-            } else if (card.value===11) {
-                card.name="Queen";
-            } else if (card.value===12) {
-                card.name="King";
-            } else if (card.value===13) {
-                card.name="Ace";
-                if (this.highAce != true) {
-                    card.value = 0;
-                }
-            }       
-        }
-    return suite;
-    }
+
+ 
     buildDeck() {
-        let deck = [];
-        const houses = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
-        for (let i=0; i< houses.length; i++) {       
-       
-            deck=deck.concat(this.buildHouse(houses[i]))        
+        //static suites
+        const house = ['♣️', '♦', '❤️', '♠']; 
+        //loop to dynamically build cards. It accepts a boolean parameter to make ace high or low
+        for (let i=0; i< house.length; i++) {        
+            for (let j = 1; j <= 13; j++ ) {
+                let value = j;
+                let rank ='';
+                if (j < 10) {
+                    rank = j +1;
+                    } else if (j===10) {
+                        rank ="J";
+                    } else if (j===11) {
+                        rank="Q";
+                    } else if (j===12) {
+                        rank="K";
+                    } else if (j===13) {
+                        rank="A";
+                        if (this.highAce != true) {
+                            value = 0;
+                        }
+                    }   
+                    this.deck.push(new Card(house[i], value, rank ))     
+                }                 
         }
-        return deck;
+        return this.deck;
     }
-}
+        
+    }
+
 
 class Player {
     constructor(name){
@@ -100,11 +92,10 @@ play(){
     this.deal();
     let p1 = this.player1;
     let p2 = this.player2;
-    //console.log(p1);
 
 for (let i=0;i<26;i++) {
     let playString=`Round ${i}: 
-        ${p1.name} plays ${p1.hand[i].name} of ${p1.hand[i].house} against ${p2.name}'s ${p2.hand[i].name} of ${p2.hand[i].house}.`;
+        ${p1.name} plays ${p1.hand[i].rank} of ${p1.hand[i].house} against ${p2.name}'s ${p2.hand[i].rank} of ${p2.hand[i].house}.`;
     if (p1.hand[i].value > p2.hand[i].value) {
         p1.score++;
         
@@ -143,7 +134,7 @@ for (let i=0;i<26;i++) {
 
 }
 
-let test = new Deck().buildDeck();
+let test = new Deck(false).buildDeck();
 
 let game = new Game("Tom", "Jerry").play();
 
