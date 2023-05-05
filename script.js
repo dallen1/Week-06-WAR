@@ -15,11 +15,11 @@ class Deck {
     };
 
     get cards() {
-        this.buildDeck();
+        this._buildDeck();
         return this.deck;
     }
 
-    buildDeck(){
+    _buildDeck(){
         this._populate();
         this._shuffle();
     }
@@ -75,7 +75,7 @@ class Player {
 
 class Game {
     
-constructor(name1="Player1", name2="Player2", highAce=true) {
+constructor(name1="Player 1", name2="Player 2", highAce=true) {
     this.player1= new Player(name1);
     this.player2 = new Player(name2);
     this.highAce= highAce;
@@ -100,7 +100,7 @@ get play(){
     let p1 = this.player1;
     let p2 = this.player2;
 
-for (let i=0;i<p1.hand.length;i++) {
+    for (let i=0;i<p1.hand.length;i++) {
     //dealer string for every round
     let playString=`Round ${i+1}: 
         ${p1.name} plays ${p1.hand[i].rank} of ${p1.hand[i].house} against ${p2.name}'s ${p2.hand[i].rank} of ${p2.hand[i].house}.`;
@@ -132,7 +132,7 @@ for (let i=0;i<p1.hand.length;i++) {
 
     }
 
-    //if stack for tallying rounds
+    //if stack for displaying winner
     if (p1.score > p2.score){
         console.log(`
         ${p1.name} wins Game! (${p1.score} vs ${p2.score})`)
@@ -149,4 +149,8 @@ for (let i=0;i<p1.hand.length;i++) {
 
 }
 
+//game without parameters
+let basicGame = new Game().play;
+
+//game with parameters
 let game = new Game("Tom", "Jerry",false).play;
