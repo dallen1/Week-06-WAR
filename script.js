@@ -150,7 +150,7 @@ get play(){
 }
 
 //game without parameters
-let basicGame = new Game().play;
+//let basicGame = new Game().play;
 
 //game with parameters
 let game = new Game("Tom", "Jerry",false).play;

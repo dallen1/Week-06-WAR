@@ -6,9 +6,7 @@ describe('Deck Building', function() {
         it('should be an array of 52 cards', function() {
             x = deck.length;
             expect(x).to.equal(52);
-        });
-
-        ;
+        });       
     });
 });
 
