@@ -26,7 +26,7 @@ class Deck {
  
     _populate() {
         //static suites
-        const house = ['♣️', '♦', '❤️', '♠']; 
+        const house = ["♣️", "♦", "❤️", "♠"]; 
         //loop to dynamically build card houses. It accepts a boolean parameter to make ace high or low
         for (let i=0; i< house.length; i++) {        
             for (let j = 1; j <= 13; j++ ) {
